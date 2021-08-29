@@ -10,12 +10,14 @@ specifiers:
   vite: ^2.4.4
   vite-plugin-components: ^0.13.2
   vue: ^3.0.5
+  vue-weather-widget: ^4.2.4
 
 dependencies:
   '@varlet/ui': registry.nlark.com/@varlet/ui/1.15.0_vue@3.2.1
   dayjs: registry.nlark.com/dayjs/1.10.6
   node-vibrant: registry.nlark.com/node-vibrant/3.2.1-alpha.1
   vue: 3.2.1
+  vue-weather-widget: registry.nlark.com/vue-weather-widget/4.2.4
 
 devDependencies:
   '@vitejs/plugin-vue': 1.4.0_@vue+compiler-sfc@3.2.1
@@ -1101,6 +1103,12 @@ packages:
       universalify: 2.0.0
     optionalDependencies:
       graceful-fs: registry.nlark.com/graceful-fs/4.2.8
+    dev: false
+
+  /jsonp/0.2.1:
+    resolution: {integrity: sha1-pltPoPEL2nGaBUQep7lMVfPhW64=, tarball: jsonp/download/jsonp-0.2.1.tgz}
+    dependencies:
+      debug: registry.nlark.com/debug/2.6.9
     dev: false
 
   /keyv/3.1.0:
@@ -3360,6 +3368,21 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  registry.nlark.com/vue-skycons/4.0.5:
+    resolution: {integrity: sha1-scCus+LwtSF7gjoss8rzFWxL3hU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/vue-skycons/download/vue-skycons-4.0.5.tgz}
+    name: vue-skycons
+    version: 4.0.5
+    dev: false
+
+  registry.nlark.com/vue-weather-widget/4.2.4:
+    resolution: {integrity: sha1-+VSfgWf0ap4R1YJuAP0cHjoGfUA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/vue-weather-widget/download/vue-weather-widget-4.2.4.tgz}
+    name: vue-weather-widget
+    version: 4.2.4
+    dependencies:
+      jsonp: 0.2.1
+      vue-skycons: registry.nlark.com/vue-skycons/4.0.5
+    dev: false
 
   registry.nlark.com/wawoff2/1.0.2:
     resolution: {integrity: sha1-qNRn5G+vxVv3VC7guHhnqnpV1dU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/wawoff2/download/wawoff2-1.0.2.tgz}

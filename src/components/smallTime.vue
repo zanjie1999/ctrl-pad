@@ -1,10 +1,10 @@
-<!-- 大时间显示器 -->
+<!-- 小时间显示器 -->
 <template>
   <div class="small-time-box-row">
     <div class="small-time-box-column">
       <div class="small-time">{{ state.timeStr }}</div>
     </div>
-    <div class="small-time-box-column">
+    <div class="small-time-box-column ampm-date-box">
       <div class="small-time-ampm">{{ state.timeAmPm }}</div>
       <div class="small-date">{{ state.dateStr }}</div>
     </div>
@@ -39,7 +39,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .small-time-box-row {
   display: flex;
   flex-wrap: wrap;
@@ -57,8 +57,14 @@ onBeforeUnmount(() => {
   flex-direction: column;
 }
 
+.ampm-date-box {
+  align-items: flex-start;
+  padding-left: 0.5em;
+}
+
 .small-time-ampm {
-  font-size: 2em;
+  font-size: 1.5em;
+  padding-top: 1.5em;
 }
 
 .small-date {

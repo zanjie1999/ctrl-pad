@@ -39,7 +39,7 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .big-time-box-row {
   display: flex;
   flex-wrap: wrap;

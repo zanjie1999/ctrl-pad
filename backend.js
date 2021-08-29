@@ -16,7 +16,9 @@ function createWindow() {
     height: 720,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    fullscreen: true,
+    autoHideMenuBar: true
   })
 
   // and load the index.html of the app.

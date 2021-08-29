@@ -11,6 +11,7 @@ declare module 'vue' {
     Time: typeof import('./src/components/time.vue')['default']
     VarSwipe: typeof import('@varlet/ui')['_SwipeComponent']
     VarSwipeItem: typeof import('@varlet/ui')['_SwipeItemComponent']
+    Weather: typeof import('./src/components/weather.vue')['default']
   }
 }
 
