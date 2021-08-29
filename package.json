@@ -9,6 +9,7 @@
     },
     "dependencies": {
         "@varlet/ui": "^1.15.0",
+        "dayjs": "^1.10.6",
         "vue": "^3.0.5"
     },
     "devDependencies": {

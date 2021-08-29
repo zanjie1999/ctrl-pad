@@ -3,7 +3,11 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BigTime: typeof import('./src/components/bigTime.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    'HelloWorld copy': typeof import('./src/components/HelloWorld copy.vue')['default']
+    VarSwipe: typeof import('@varlet/ui')['_SwipeComponent']
+    VarSwipeItem: typeof import('@varlet/ui')['_SwipeItemComponent']
   }
 }
 
