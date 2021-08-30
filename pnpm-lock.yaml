@@ -6,17 +6,21 @@ specifiers:
   '@vue/compiler-sfc': ^3.0.5
   dayjs: ^1.10.6
   electron: ^13.1.9
+  jsonp: ^0.2.1
   node-vibrant: ^3.2.1-alpha.1
   vite: ^2.4.4
   vite-plugin-components: ^0.13.2
   vue: ^3.0.5
+  vue-skycons: ^4.0.3
   vue-weather-widget: ^4.2.4
 
 dependencies:
   '@varlet/ui': registry.nlark.com/@varlet/ui/1.15.0_vue@3.2.1
   dayjs: registry.nlark.com/dayjs/1.10.6
+  jsonp: 0.2.1
   node-vibrant: registry.nlark.com/node-vibrant/3.2.1-alpha.1
   vue: 3.2.1
+  vue-skycons: 4.0.5
   vue-weather-widget: registry.nlark.com/vue-weather-widget/4.2.4
 
 devDependencies:
@@ -455,7 +459,6 @@ packages:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     dependencies:
       ms: 2.0.0
-    dev: true
 
   /debug/4.3.2:
     resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==}
@@ -1106,9 +1109,9 @@ packages:
     dev: false
 
   /jsonp/0.2.1:
-    resolution: {integrity: sha1-pltPoPEL2nGaBUQep7lMVfPhW64=, tarball: jsonp/download/jsonp-0.2.1.tgz}
+    resolution: {integrity: sha1-pltPoPEL2nGaBUQep7lMVfPhW64=}
     dependencies:
-      debug: registry.nlark.com/debug/2.6.9
+      debug: 2.6.9
     dev: false
 
   /keyv/3.1.0:
@@ -1283,7 +1286,7 @@ packages:
       minimist: 1.2.5
 
   /ms/2.0.0:
-    resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=, tarball: ms/download/ms-2.0.0.tgz}
+    resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
 
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
@@ -1986,6 +1989,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /vue-skycons/4.0.5:
+    resolution: {integrity: sha512-Yfss/BJ7Av/Uklgt4Xi/615soNfQw+qWw/hKtYuh5PxvjkDlhROz+FJocbtClx7lVnNFMBPR3MQn5yv5VBQ4hw==}
+    dev: false
 
   /vue/3.2.1:
     resolution: {integrity: sha512-0jhXluF5mzTAK5bXw/8yq4McvsI8HwEWI4cnQwJeN8NYGRbwh9wwuE4FNv1Kej9pxBB5ajTNsWr0M6DPs5EJZg==}

@@ -58,7 +58,7 @@ onBeforeUnmount(() => {
 }
 
 .big-time-ampm {
-  font-size: 3em;
+  font-size: 4em;
 }
 
 .big-date {
@@ -66,6 +66,6 @@ onBeforeUnmount(() => {
 }
 
 .big-time {
-  font-size: 17em;
+  font-size: 16em;
 }
 </style>
