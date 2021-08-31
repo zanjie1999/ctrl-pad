@@ -18,10 +18,10 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     },
-    // fullscreen: electron.screen.getPrimaryDisplay().workAreaSize.height <= 720,
+    fullscreen: electron.screen.getPrimaryDisplay().workAreaSize.height <= 720,
     autoHideMenuBar: true,
-    // resizable: false,
-    frame: false,
+    resizable: false,
+    // frame: false,
   })
 
   // and load the index.html of the app.
