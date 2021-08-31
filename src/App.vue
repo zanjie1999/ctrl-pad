@@ -4,7 +4,7 @@
     :style="{ backgroundImage: 'url(' + state.backgroundImg + ')' }"
   >
     <div class="dark-mode">
-      <var-swipe class="swipe" @change="pageChange">
+      <var-swipe ref="swipe" class="swipe" @change="pageChange">
         <!-- 凌晨大时间显示器 -->
         <var-swipe-item v-if="state.isDawn" class="swipe-item dawn-mode">
           <bigTime showAmPm="true" />
@@ -23,22 +23,32 @@
         </var-swipe-item>
         <!-- 浏览器 -->
         <var-swipe-item>
-          <var-app-bar title="标题">
+          <var-app-bar :title="state.iframeSrc">
             <template #left>
               <var-button
                 round
                 text
                 color="transparent"
-                text-color="#ffffff"
-                @click="$router.go(-1)"
+                text-color="#fff"
+                @click="backButton()"
               >
                 <var-icon name="chevron-left" :size="24" />
               </var-button>
             </template>
 
-            <template #right> </template>
+            <template #right>
+              <var-button
+                round
+                text
+                color="transparent"
+                text-color="#fff"
+                @click="homeButton()"
+              >
+                <var-icon name="home" :size="24" />
+              </var-button>
+            </template>
           </var-app-bar>
-          <iframe class="iframeBrowser" src="http://rk:8123/lovelace/default_view"></iframe>
+          <iframe class="iframeBrowser" :src="state.iframeSrc"></iframe>
         </var-swipe-item>
       </var-swipe>
     </div>
@@ -46,7 +56,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 dayjs.locale("zh-cn");
@@ -54,6 +64,8 @@ dayjs.locale("zh-cn");
 const state = reactive({
   debug: false,
   backgroundImg: "/src/assets/4.jpg",
+  iframeSrc: "http://rk:8123/lovelace/default_view",
+  swipePage: 0,
 });
 
 // 定时器一分钟一次
@@ -70,7 +82,19 @@ state.minTimer = setInterval(minJob, 60000);
 
 const pageChange = (page) => {
   console.log("pageChange:", page);
+  state.swipePage = page
 };
+
+const backButton = () => {
+  window.history.back()
+}
+
+const homeButton = () => {
+  debugger
+  const swipe = ref(null);
+  swipe.value.to(0)
+}
+
 </script>
 
 <style>
@@ -128,5 +152,9 @@ body {
   position: absolute;
   transform: scale(1.25);
   transform-origin: 0 0;
+}
+
+.var-app-bar {
+  background-color: #03a9f4;
 }
 </style>
