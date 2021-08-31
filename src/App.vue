@@ -32,7 +32,7 @@
                 text-color="#fff"
                 @click="backButton()"
               >
-                <var-icon name="chevron-left" :size="24" />
+                <var-icon name="chevron-left" :size="35" />
               </var-button>
             </template>
 
@@ -44,7 +44,7 @@
                 text-color="#fff"
                 @click="homeButton()"
               >
-                <var-icon name="home" :size="24" />
+                <var-icon name="home" :size="35" />
               </var-button>
             </template>
           </var-app-bar>
