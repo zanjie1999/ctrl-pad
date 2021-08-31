@@ -30,7 +30,7 @@
                 text
                 color="transparent"
                 text-color="#ffffff"
-                @click="goBack"
+                @click="$router.go(-1)"
               >
                 <var-icon name="chevron-left" :size="24" />
               </var-button>
@@ -122,11 +122,11 @@ body {
 }
 
 .iframeBrowser {
-  width: calc(100%/1.5);
-  height: calc(100%/1.5);
+  width: calc(100%/1.25);
+  height: calc(100%/1.25);
   border-width: 0;
   position: absolute;
-  transform: scale(1.5);
+  transform: scale(1.25);
   transform-origin: 0 0;
 }
 </style>
