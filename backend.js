@@ -20,7 +20,7 @@ function createWindow() {
     },
     // fullscreen: electron.screen.getPrimaryDisplay().workAreaSize.height <= 720,
     autoHideMenuBar: true,
-    resizable: false,
+    // resizable: false,
     frame: false,
   })
 
