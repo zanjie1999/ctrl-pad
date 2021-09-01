@@ -66,6 +66,7 @@ const state = reactive({
   backgroundImg: "/src/assets/4.jpg",
   iframeSrc: "http://rk:8123/lovelace/default_view",
   swipePage: 0,
+  swipeTimeout: 0
 });
 
 // 定时器一分钟一次
@@ -76,6 +77,16 @@ const minJob = () => {
   state.timeH = day.hour();
   // 定时切换凌晨大时钟
   state.isDawn = false || (state.timeH >= 0 && state.timeH <= 6);
+  // 超时回到第一页 10min
+  if (state.swipePage != 0) {
+    state.swipeTimeout++
+    if (state.swipeTimeout == 10) {
+      state.swipePage = 0
+      state.swipeTimeout = 0
+      swipe.value.go(0)
+      console.log("auto goto page 0");
+    }
+  }
 };
 minJob();
 state.minTimer = setInterval(minJob, 60000);
@@ -83,16 +94,18 @@ state.minTimer = setInterval(minJob, 60000);
 const pageChange = (page) => {
   console.log("pageChange:", page);
   state.swipePage = page
+  if (page == 0) {
+    state.swipeTimeout = 0
+  }
 };
 
 const backButton = () => {
   window.history.back()
 }
 
+const swipe = ref(null);
 const homeButton = () => {
-  debugger
-  const swipe = ref(null);
-  swipe.value.to(0)
+  swipe.value.go(0)
 }
 
 </script>
