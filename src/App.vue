@@ -64,6 +64,8 @@ dayjs.locale("zh-cn");
 import * as Vibrant from 'node-vibrant'
 // import electron from 'electron'
 
+const swipe = ref(null);
+
 const state = reactive({
   debug: false,
   bgImgList: ['1.png', '2.png', '3.png', '4.jpg', '5.jpg'],
@@ -112,7 +114,7 @@ const minJob = () => {
     if (state.swipeTimeout == 10) {
       state.swipePage = 0
       state.swipeTimeout = 0
-      swipe.value.go(0)
+      swipe.value.to(0)
       console.log("auto goto page 0");
     }
   }
@@ -138,9 +140,8 @@ const backButton = () => {
   window.history.back()
 }
 
-const swipe = ref(null);
 const homeButton = () => {
-  swipe.value.go(0)
+  swipe.value.to(0)
 }
 
 </script>
