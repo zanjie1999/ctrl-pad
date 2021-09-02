@@ -5,7 +5,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const electron = require("electron");
-const ipcMain = require('electron').ipcMain;
+// const ipcMain = require('electron').ipcMain;
 // const child_process = require('child_process')
 
 // // run vite in shell

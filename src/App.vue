@@ -81,7 +81,7 @@ const state = reactive({
 // 背景图切换
 const bgChange = () => {
   // 随机选择背景图
-  state.bgImg = 'bg/' + state.bgImgList[Math.floor((Math.random()*state.bgImgList.length))]
+  state.bgImg = '/src/assets/bg/' + state.bgImgList[Math.floor((Math.random()*state.bgImgList.length))]
   console.log("bgChange: ", state.bgImg);
 
   // 分析背景颜色
