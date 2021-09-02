@@ -1,9 +1,10 @@
 <template>
   <div
     class="background"
-    :style="{ backgroundImage: 'url(' + state.backgroundImg + ')' }"
+    :style="{ backgroundImage: 'url(' + state.bgImg + ')', backgroundColor: state.bgMutedColor }"
   >
-    <div class="dark-mode">
+    <div :class="[ state.useLightMode ? 'light-mode' : 'dark-mode']">
+    <!-- <div :class="[ state.useLightMode ? 'light-mode' : 'dark-mode']" :style="{color: state.useLightMode ? state.bgDarkVibrant : state.bgLightVibrantColor}"> -->
       <var-swipe ref="swipe" class="swipe" @change="pageChange">
         <!-- 凌晨大时间显示器 -->
         <var-swipe-item v-if="state.isDawn" class="swipe-item dawn-mode">
@@ -60,14 +61,42 @@ import { reactive, ref } from "vue";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 dayjs.locale("zh-cn");
+import * as Vibrant from 'node-vibrant'
+// import electron from 'electron'
 
 const state = reactive({
   debug: false,
-  backgroundImg: "/src/assets/4.jpg",
+  bgImgList: ['1.png', '2.png', '3.png', '4.jpg', '5.jpg'],
+  bgImg: "",
+  bgMutedColor: '#000',
+  bgLightVibrantColor: '#fff',
+  bgDarkVibrant: '#000',
+  bgLastChangeTimeout: 0,
+  useLightMode: false,
   iframeSrc: "http://rk:8123/lovelace/default_view",
   swipePage: 0,
   swipeTimeout: 0
 });
+
+// 背景图切换
+const bgChange = () => {
+  // 随机选择背景图
+  state.bgImg = 'bg/' + state.bgImgList[Math.floor((Math.random()*state.bgImgList.length))]
+  console.log("bgChange: ", state.bgImg);
+
+  // 分析背景颜色
+  Vibrant.from(state.bgImg).getPalette((err, palette) => {
+    console.log('bgPalette', palette)
+    state.bgMutedColor = palette.Muted.getHex();
+    state.bgLightVibrantColor = palette.LightVibrant.getHex();
+    state.bgDarkVibrant = palette.DarkVibrant.getHex();
+    let m = palette.Muted.getRgb();
+    let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000
+    console.log('toGrayscale:', grayscale)
+    state.useLightMode = grayscale > 128
+  })
+}
+bgChange();
 
 // 定时器一分钟一次
 const minJob = () => {
@@ -86,6 +115,12 @@ const minJob = () => {
       swipe.value.go(0)
       console.log("auto goto page 0");
     }
+  }
+  // 自动更换背景
+  state.bgLastChangeTimeout++
+  if (state.bgLastChangeTimeout == 30) {
+    state.bgLastChangeTimeout = 0;
+    bgChange();
   }
 };
 minJob();
@@ -115,8 +150,6 @@ body {
   margin: 0;
 }
 .background {
-  background-color: grey;
-  /* background-image: url("/src/assets/4.jpg"); */
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
