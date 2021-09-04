@@ -1,7 +1,7 @@
 <template>
   <div
     class="background"
-    :style="{ backgroundImage: 'url(' + state.bgImg + ')', backgroundColor: state.bgMutedColor }"
+    :style="{ backgroundImage: 'url(\'' + state.bgImg + '\')', backgroundColor: state.bgMutedColor }"
   >
     <div :class="[ state.useLightMode ? 'light-mode' : 'dark-mode']">
     <!-- <div :class="[ state.useLightMode ? 'light-mode' : 'dark-mode']" :style="{color: state.useLightMode ? state.bgDarkVibrant : state.bgLightVibrantColor}"> -->
@@ -13,7 +13,7 @@
         <!-- 正常的首页 -->
         <var-swipe-item>
           <div class="main-box">
-            <smallTime />
+            <smallTime @click="bgChange()" />
           </div>
           <div class="main-box main-box-right">
             <vue-weather
@@ -86,13 +86,14 @@ const state = reactive({
 // 背景图切换
 const bgChange = () => {
   // 随机选择背景图
-  if (state.bgLastChange > state.bgImgList.length) {
+  if (state.bgLastChange == 0 || state.bgLastChange == state.bgImgList.length) {
     state.bgLastChange = 0;
     // 打乱list顺序
     for (let i = state.bgImgList.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [state.bgImgList[i], state.bgImgList[j]] = [state.bgImgList[j], state.bgImgList[i]];
     }
+    console.log("bgShuffle: ", state.bgImg);
   }
   state.bgImg = '/src/assets/bg/' + state.bgImgList[state.bgLastChange]
   console.log("bgChange: ", state.bgImg);
