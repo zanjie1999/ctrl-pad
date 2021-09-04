@@ -5,7 +5,6 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const electron = require("electron");
-// const ipcMain = require('electron').ipcMain;
 // const child_process = require('child_process')
 
 // // run vite in shell
@@ -17,6 +16,11 @@ function createWindow() {
     width: 1280,
     height: 720,
     webPreferences: {
+      // Use pluginOptions.nodeIntegration, leave this alone
+      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js')
     },
     fullscreen: electron.screen.getPrimaryDisplay().workAreaSize.height <= 720,
@@ -64,3 +68,14 @@ app.on('window-all-closed', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+
+// 获取所有的背景图片
+ipcMain.on('getBgImgList', (event, arg) => {
+  flist = fs.readdirSync(path.join(__dirname, 'src/assets/bg'));
+  if (flist) {
+    event.sender.send('getBgImgList', '', flist);
+  } else {
+    event.sender.send('getBgImgList', '没有背景图片 请将图片放到 src/assets/bg');
+  }
+});

@@ -58,33 +58,45 @@
 
 <script setup>
 import { reactive, ref } from "vue";
+import { Snackbar, Dialog } from '@varlet/ui'
+import '@varlet/ui/es/dialog/style/index.js'
+import '@varlet/ui/es/snackbar/style/index.js'
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 dayjs.locale("zh-cn");
 import * as Vibrant from 'node-vibrant'
-// import electron from 'electron'
 
 const swipe = ref(null);
 
 const state = reactive({
   debug: false,
-  bgImgList: ['1.png', '2.png', '3.png', '4.jpg', '5.jpg'],
+  bgImgList: [],
   bgImg: "",
   bgMutedColor: '#000',
   bgLightVibrantColor: '#fff',
   bgDarkVibrant: '#000',
-  bgLastChangeTimeout: 0,
+  bgLastChange: 0,
   useLightMode: false,
   iframeSrc: "http://rk:8123/lovelace/default_view",
   swipePage: 0,
   swipeTimeout: 0
 });
 
+
 // 背景图切换
 const bgChange = () => {
   // 随机选择背景图
-  state.bgImg = '/src/assets/bg/' + state.bgImgList[Math.floor((Math.random()*state.bgImgList.length))]
+  if (state.bgLastChange > state.bgImgList.length) {
+    state.bgLastChange = 0;
+    // 打乱list顺序
+    for (let i = state.bgImgList.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [state.bgImgList[i], state.bgImgList[j]] = [state.bgImgList[j], state.bgImgList[i]];
+    }
+  }
+  state.bgImg = '/src/assets/bg/' + state.bgImgList[state.bgLastChange]
   console.log("bgChange: ", state.bgImg);
+  state.bgLastChange++
 
   // 分析背景颜色
   Vibrant.from(state.bgImg).getPalette((err, palette) => {
@@ -93,21 +105,22 @@ const bgChange = () => {
     state.bgLightVibrantColor = palette.LightVibrant.getHex();
     state.bgDarkVibrant = palette.DarkVibrant.getHex();
     let m = palette.Muted.getRgb();
+    // 转为灰度
     let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000
     console.log('toGrayscale:', grayscale)
     state.useLightMode = grayscale > 128
   })
 }
-bgChange();
 
 // 定时器一分钟一次
 const minJob = () => {
   window.sparkle = state;
   console.log("minJob!");
   const day = dayjs();
-  state.timeH = day.hour();
+  const timeH = day.hour();
+  const timeM = day.minute();
   // 定时切换凌晨大时钟
-  state.isDawn = false || (state.timeH >= 0 && state.timeH <= 6);
+  state.isDawn = false || (timeH >= 0 && timeH <= 6);
   // 超时回到第一页 10min
   if (state.swipePage != 0) {
     state.swipeTimeout++
@@ -118,9 +131,8 @@ const minJob = () => {
       console.log("auto goto page 0");
     }
   }
-  // 自动更换背景
-  state.bgLastChangeTimeout++
-  if (state.bgLastChangeTimeout == 30) {
+  // 自动更换背景 30min
+  if (timeM == 0 || timeM == 30) {
     state.bgLastChangeTimeout = 0;
     bgChange();
   }
@@ -142,7 +154,29 @@ const backButton = () => {
 
 const homeButton = () => {
   swipe.value.to(0)
+  console.log('ping', ipcRenderer.sendSync('ping', '11111'));
 }
+
+// 后端推送提示框
+ipcRenderer.on('Dialog', (event, msg) => {
+  Dialog(msg)
+})
+ipcRenderer.on('Snackbar', (event, msg) => {
+  Snackbar(msg)
+})
+
+// 从后端拿到背景图列表
+ipcRenderer.on('getBgImgList', (event, err, data) => {
+  console.log('getBgImgList', err, data); 
+  if (err) { 
+    Dialog(err)
+    return;
+  }
+  state.bgImgList = data
+  bgChange();
+})
+ipcRenderer.send('getBgImgList')
+
 
 </script>
 
@@ -184,7 +218,8 @@ body {
   align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  flex-direction: column;
+  /* flex-direction: column; */
+  flex-direction: column-reverse;
 }
 
 .main-box-right {
