@@ -118,18 +118,20 @@ const bgChange = () => {
   console.log("bgChange: ", state.bgImg);
   state.bgLastChange++
 
-  // 分析背景颜色
-  Vibrant.from(state.bgImg).getPalette((err, palette) => {
-    console.log('bgPalette', palette)
-    state.bgMutedColor = palette.Muted.getHex();
-    state.bgLightVibrantColor = palette.LightVibrant.getHex();
-    state.bgDarkVibrant = palette.DarkVibrant.getHex();
-    let m = palette.Muted.getRgb();
-    // 转为灰度
-    let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000
-    console.log('toGrayscale:', grayscale)
-    state.useLightMode = grayscale > 128
-  })
+  // 分析背景颜色 太卡了延时下
+  setTimeout(() => {
+    Vibrant.from(state.bgImg).getPalette((err, palette) => {
+      console.log('bgPalette', palette)
+      state.bgMutedColor = palette.Muted.getHex();
+      state.bgLightVibrantColor = palette.LightVibrant.getHex();
+      state.bgDarkVibrant = palette.DarkVibrant.getHex();
+      let m = palette.Muted.getRgb();
+      // 转为灰度
+      let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000
+      console.log('toGrayscale:', grayscale)
+      state.useLightMode = grayscale > 128
+    })
+  }, 4000)
 }
 
 // 定时器一分钟一次
