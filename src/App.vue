@@ -234,8 +234,9 @@ body {
 }
 
 .dark-mode {
-  background-color: rgba(0, 0, 0, 0.1);
+  /* background-color: rgba(0, 0, 0, 0.1); */
   color: #fff;
+  text-shadow: -2px 1px 5px #000;
 }
 
 .main-box {
@@ -260,6 +261,8 @@ body {
 
 .main-button-box .var-button {
   margin-left: 1em;
+  width:3em;
+  height: 3em;
 }
 
 .iframeBrowser {

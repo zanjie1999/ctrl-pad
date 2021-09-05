@@ -25,7 +25,25 @@ window.SeniverseWeatherWidget('show', {
 </script>
 
 <style>
-  .dark-mode-weather .sw-container .sw-bar-slim {
+  .dark-mode-weather .sw-bar-slim {
     color: #fff;
   }
+  #tp-weather-widget .sw-container .sw-bar-slim .sw-typography {
+    font-size: 3em !important;
+  }
+ 
+  .sw-bar-slim-location {
+    display:none;
+  }
+
+  #tp-weather-widget .sw-container .sw-bar-slim img {
+    width: 3.5em !important;
+    height: 3.5em !important;
+  }
+
+  #tp-weather-widget .sw-card-slim-container { 
+    max-height: 85vh;
+    overflow: auto;
+  }
+
 </style>
