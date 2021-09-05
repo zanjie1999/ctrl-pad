@@ -12,19 +12,26 @@
         </var-swipe-item>
         <!-- 正常的首页 -->
         <var-swipe-item>
+          <!-- 主页左 -->
           <div class="main-box">
-            <smallTime @click="bgChange()" />
+            <weather :dark="!state.useLightMode"/>
+            <smallTime />
           </div>
+          <!-- 主页右 -->
           <div class="main-box main-box-right">
-            <vue-weather
-              api-key="a9a79e59327a0dc88a110c7f442c8db8"
-              units="uk"
-            />
+            <div class="main-button-box">
+              <var-button type="info" round @click="bgChange()">
+                <var-icon name="refresh" />
+              </var-button>
+              <var-button type="danger" round @click="minimize()">
+                <var-icon name="minus" />
+              </var-button>
+            </div>
           </div>
         </var-swipe-item>
         <!-- 浏览器 -->
         <var-swipe-item>
-          <var-app-bar :title="state.iframeSrc">
+          <var-app-bar title-position="center" >
             <template #left>
               <var-button
                 round
@@ -35,6 +42,13 @@
               >
                 <var-icon name="chevron-left" :size="35" />
               </var-button>
+              <var-input 
+                :hint="false" 
+                :line="false" 
+                :placeholder="state.iframeSrc"
+                v-model="state.iframeSrcInp"
+                @keyup.enter="iframeSrcInpEnter"
+              />
             </template>
 
             <template #right>
@@ -70,7 +84,7 @@ const swipe = ref(null);
 
 const state = reactive({
   debug: false,
-  bgImgList: [],
+  bgImgList: ['1.png', '2.png', '3.png', '4.jpg', '5.jpg'],
   bgImg: "",
   bgMutedColor: '#000',
   bgLightVibrantColor: '#fff',
@@ -82,6 +96,11 @@ const state = reactive({
   swipeTimeout: 0
 });
 
+// 输入框回车
+const iframeSrcInpEnter = () => {
+  state.iframeSrc = state.iframeSrcInp;
+  state.iframeSrcInp = '';
+}
 
 // 背景图切换
 const bgChange = () => {
@@ -95,7 +114,7 @@ const bgChange = () => {
     }
     console.log("bgShuffle: ", state.bgImg);
   }
-  state.bgImg = '/src/assets/bg/' + state.bgImgList[state.bgLastChange]
+  state.bgImg = encodeURI('/src/assets/bg/' + state.bgImgList[state.bgLastChange])
   console.log("bgChange: ", state.bgImg);
   state.bgLastChange++
 
@@ -155,29 +174,36 @@ const backButton = () => {
 
 const homeButton = () => {
   swipe.value.to(0)
-  console.log('ping', ipcRenderer.sendSync('ping', '11111'));
 }
 
-// 后端推送提示框
-ipcRenderer.on('Dialog', (event, msg) => {
-  Dialog(msg)
-})
-ipcRenderer.on('Snackbar', (event, msg) => {
-  Snackbar(msg)
-})
+const minimize = () => {
+  ipcRenderer.send('minimize')
+}
 
-// 从后端拿到背景图列表
-ipcRenderer.on('getBgImgList', (event, err, data) => {
-  console.log('getBgImgList', err, data); 
-  if (err) { 
-    Dialog(err)
-    return;
-  }
-  state.bgImgList = data
+if (window.ipcRenderer) {
+  // 后端推送提示框
+  ipcRenderer.on('Dialog', (event, msg) => {
+    Dialog(msg)
+  })
+  ipcRenderer.on('Snackbar', (event, msg) => {
+    Snackbar(msg)
+  })
+
+  // 从后端拿到背景图列表
+  ipcRenderer.on('getBgImgList', (event, err, data) => {
+    console.log('getBgImgList', err, data); 
+    if (err) { 
+      Dialog(err)
+      return;
+    }
+    state.bgImgList = data
+    bgChange();
+  })
+  ipcRenderer.send('getBgImgList')
+} else {
+  // 使用普通浏览器无法与electron后端通信
   bgChange();
-})
-ipcRenderer.send('getBgImgList')
-
+}
 
 </script>
 
@@ -213,19 +239,27 @@ body {
 }
 
 .main-box {
+  float: left;
   margin: 0.5em;
   height: calc(100% - 1em);
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  /* flex-direction: column; */
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .main-box-right {
   float: right;
   align-items: flex-end;
+}
+
+.main-button-box {
+  opacity: 0.3;
+}
+
+.main-button-box .var-button {
+  margin-left: 1em;
 }
 
 .iframeBrowser {

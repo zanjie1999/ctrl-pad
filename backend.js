@@ -29,6 +29,11 @@ function createWindow() {
     // frame: false,
   })
 
+    // 最小化窗口
+    ipcMain.on('minimize', (event, arg) => {
+      mainWindow.minimize();
+    });
+
   // and load the index.html of the app.
   // if (process.env.VITE_DEV) {
     mainWindow.loadURL('http://localhost:3000/')

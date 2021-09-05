@@ -1,40 +1,31 @@
 <template>
-  <div id="weather-v2-plugin-simple"></div>　　
+  <div id="tp-weather-widget" :class="{'dark-mode-weather': props.dark}"></div>
 </template>
 
+<script>  (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));</script>
 <script setup>
 import { defineProps, reactive } from 'vue'
 
-defineProps({})
+const props = defineProps({
+  dark: String,
+});
 
 const state = reactive({})
-
-window.WIDGET = {
-    CONFIG: {
-        "layout": 1,
-        "width": "300",
-        "height": "150",
-        "background": 1,
-        "dataColor": "FFFFFF",
-        "language": "zh",
-        "borderRadius": 5,
-        "city": "CN101250106",
-        "key": "6yYvSSecPy"
-    }
-};
-(function (d) {
-    var c = d.createElement('link')
-    c.rel = 'stylesheet'
-    c.href = 'http://apip.weatherdt.com/standard/static/css/weather-standard.css?v=2.0'
-    var s = d.createElement('script')
-    s.src = 'http://apip.weatherdt.com/standard/static/js/weather-standard.js?v=2.0'
-    var sn = d.getElementsByTagName('script')[0]
-    sn.parentNode.insertBefore(c, sn)
-    sn.parentNode.insertBefore(s, sn)
-})(document)
-
+window.SeniverseWeatherWidget('show', {
+    flavor: "slim",
+    location: "WS0E9D8WN298",
+    geolocation: true,
+    language: "zh-Hans",
+    unit: "c",
+    theme: "auto",
+    token: "9f41368b-06dd-43fd-a772-0820ff2b1e98",
+    hover: "enabled",
+    container: "tp-weather-widget"
+  })
 </script>
 
-<style scoped>
-
+<style>
+  .dark-mode-weather .sw-container .sw-bar-slim {
+    color: #fff;
+  }
 </style>
