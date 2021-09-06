@@ -14,8 +14,8 @@
         <var-swipe-item>
           <!-- 主页左 -->
           <div class="main-box">
-            <weather :dark="!state.useLightMode"/>
-            <smallTime />
+            <weather :dark="!state.useLightMode" class="shadow"/>
+            <smallTime class="shadow"/>
           </div>
           <!-- 主页右 -->
           <div class="main-box main-box-right">
@@ -238,7 +238,10 @@ body {
 .dark-mode {
   /* background-color: rgba(0, 0, 0, 0.1); */
   color: #fff;
-  text-shadow: -3px 2px 3px rgba(0,0,0,0.5);;
+}
+
+.dark-mode .shadow {
+  text-shadow: -3px 2px 3px rgba(0,0,0,0.5);
 }
 
 .main-box {
