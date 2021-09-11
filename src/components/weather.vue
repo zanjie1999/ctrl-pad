@@ -29,6 +29,8 @@ window.SeniverseWeatherWidget('show', {
   .dark-mode-weather .sw-bar-slim {
     color: #fff;
   }
+
+  /* 温度 */
   #tp-weather-widget .sw-container .sw-bar-slim .sw-typography {
     font-size: 3em !important;
   }
@@ -37,12 +39,14 @@ window.SeniverseWeatherWidget('show', {
     display:none;
   }
 
+  /* 天气图标 */
   #tp-weather-widget .sw-container .sw-bar-slim img {
     filter: drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
     width: 3.5em !important;
     height: 3.5em !important;
   }
 
+  /* 卡片里面的字 */
   #tp-weather-widget .sw-card-slim-container { 
     text-shadow: 0 0 0 rgba(0,0,0,0.5);
     max-height: 85vh;
