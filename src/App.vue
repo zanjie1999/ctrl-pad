@@ -1,10 +1,13 @@
 <template>
   <div
     class="background"
-    :style="{ backgroundImage: 'url(\'' + state.bgImg + '\')', backgroundColor: state.bgMutedColor }"
+    :style="{
+      backgroundImage: 'url(\'' + state.bgImg + '\')',
+      backgroundColor: state.bgMutedColor,
+    }"
   >
-    <div :class="[ state.useLightMode ? 'light-mode' : 'dark-mode']">
-    <!-- <div :class="[ state.useLightMode ? 'light-mode' : 'dark-mode']" :style="{color: state.useLightMode ? state.bgDarkVibrant : state.bgLightVibrantColor}"> -->
+    <div :class="[state.useLightMode ? 'light-mode' : 'dark-mode']">
+      <!-- <div :class="[ state.useLightMode ? 'light-mode' : 'dark-mode']" :style="{color: state.useLightMode ? state.bgDarkVibrant : state.bgLightVibrantColor}"> -->
       <var-swipe ref="swipe" class="swipe" @change="pageChange">
         <!-- 凌晨大时间显示器 -->
         <var-swipe-item v-if="state.isDawn" class="swipe-item dawn-mode">
@@ -18,8 +21,8 @@
           </div>
           <!-- 主页左 -->
           <div class="main-box">
-            <weather :dark="!state.useLightMode" class="shadow"/>
-            <smallTime class="shadow" :minJob="minJob"/>
+            <weather :dark="!state.useLightMode" class="shadow" />
+            <smallTime class="shadow" :minJob="minJob" />
           </div>
           <!-- 主页右 -->
           <div class="main-box main-box-right">
@@ -35,7 +38,7 @@
         </var-swipe-item>
         <!-- 浏览器 -->
         <var-swipe-item>
-          <var-app-bar title-position="center" >
+          <var-app-bar title-position="center">
             <template #left>
               <var-button
                 round
@@ -46,16 +49,41 @@
               >
                 <var-icon name="chevron-left" :size="35" />
               </var-button>
-              <var-input 
-                :hint="false" 
-                :line="false" 
+              <var-input
+                :hint="false"
+                :line="false"
                 :placeholder="state.iframeSrc"
                 v-model="state.iframeSrcInp"
                 @keyup.enter="iframeSrcInpEnter"
+                style="width: 75vw;"
               />
             </template>
 
             <template #right>
+              <var-menu :offset-y="38" :offset-x="-20" v-model:show="state.isWebListMenuOpen">
+                <var-button
+                  round
+                  text
+                  color="transparent"
+                  text-color="#ffffff"
+                  @click="state.isWebListMenuOpen = !state.isWebListMenuOpen"
+                >
+                  <var-icon name="menu" :size="35" />
+                </var-button>
+
+                <template #menu>
+                  <div class="menu-list">
+                    <var-cell
+                      class="menu-cell"
+                      v-for="v in state.webList"
+                      :key="v.n"
+                      @click="openWeb(v.u)"
+                    >
+                      {{ v.n }}
+                    </var-cell>
+                  </div>
+                </template>
+              </var-menu>
               <var-button
                 round
                 text
@@ -76,35 +104,52 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import { Snackbar, Dialog } from '@varlet/ui'
-import '@varlet/ui/es/dialog/style/index.js'
-import '@varlet/ui/es/snackbar/style/index.js'
+import { Snackbar, Dialog } from "@varlet/ui";
+import "@varlet/ui/es/dialog/style/index.js";
+import "@varlet/ui/es/snackbar/style/index.js";
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 dayjs.locale("zh-cn");
-import * as Vibrant from 'node-vibrant'
+import * as Vibrant from "node-vibrant";
 
 const swipe = ref(null);
 
 const state = reactive({
   debug: false,
-  bgImgList: ['1.png', '2.png', '3.png', '4.jpg', '5.jpg'],
+  bgImgList: ["1.png", "2.png", "3.png", "4.jpg", "5.jpg"],
   bgImg: "",
-  bgMutedColor: '#000',
-  bgLightVibrantColor: '#fff',
-  bgDarkVibrant: '#000',
+  bgMutedColor: "#000",
+  bgLightVibrantColor: "#fff",
+  bgDarkVibrant: "#000",
   bgLastChange: 0,
   useLightMode: false,
-  iframeSrc: "http://rk:8123/lovelace/default_view",
+  iframeSrc: "",
   swipePage: 0,
-  swipeTimeout: 0
+  swipeTimeout: 0,
+  webList: [
+    { n: "Hass", u: "http://rk:8123/lovelace/default_view" },
+    { n: "群晖", u: "http://owo:5000", },
+    { n: "百度", u: "https://www.baidu.com", },
+    ],
+  isWebListMenuOpen: false,
 });
 
 // 输入框回车
 const iframeSrcInpEnter = () => {
-  state.iframeSrc = state.iframeSrcInp;
-  state.iframeSrcInp = '';
-}
+  if (state.iframeSrcInp.indexOf("://") > 0){
+    state.iframeSrc = state.iframeSrcInp;
+  } else {
+    state.iframeSrc = "http://" + state.iframeSrcInp;
+  }
+  state.iframeSrcInp = "";
+};
+
+// 在浏览器打开页面
+const openWeb = (url) => {
+  console.log("openWeb:", url);
+  swipe.value.to(1);
+  state.iframeSrc = url;
+};
 
 // 背景图切换
 const bgChange = () => {
@@ -114,29 +159,36 @@ const bgChange = () => {
     // 打乱list顺序
     for (let i = state.bgImgList.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [state.bgImgList[i], state.bgImgList[j]] = [state.bgImgList[j], state.bgImgList[i]];
+      [state.bgImgList[i], state.bgImgList[j]] = [
+        state.bgImgList[j],
+        state.bgImgList[i],
+      ];
     }
     console.log("bgShuffle: ", state.bgImg);
   }
-  state.bgImg = encodeURI('/src/assets/bg/' + state.bgImgList[state.bgLastChange])
+  state.bgImg = encodeURI(
+    "/src/assets/bg/" + state.bgImgList[state.bgLastChange]
+  );
   console.log("bgChange: ", state.bgImg);
-  state.bgLastChange++
+  state.bgLastChange++;
 
   // 分析背景颜色 太卡了延时下
   setTimeout(() => {
-    Vibrant.from(state.bgImg).getPalette().then((palette) => {
-      console.log('bgPalette', palette)
-      state.bgMutedColor = palette.Muted.getHex();
-      state.bgLightVibrantColor = palette.LightVibrant.getHex();
-      state.bgDarkVibrant = palette.DarkVibrant.getHex();
-      let m = palette.Muted.getRgb();
-      // 转为灰度
-      let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000
-      console.log('toGrayscale:', grayscale)
-      state.useLightMode = grayscale > 125
-    })
-  }, 2000)
-}
+    Vibrant.from(state.bgImg)
+      .getPalette()
+      .then((palette) => {
+        console.log("bgPalette", palette);
+        state.bgMutedColor = palette.Muted.getHex();
+        state.bgLightVibrantColor = palette.LightVibrant.getHex();
+        state.bgDarkVibrant = palette.DarkVibrant.getHex();
+        let m = palette.Muted.getRgb();
+        // 转为灰度
+        let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000;
+        console.log("toGrayscale:", grayscale);
+        state.useLightMode = grayscale > 125;
+      });
+  }, 2000);
+};
 
 // 定时器一分钟一次
 const minJob = () => {
@@ -149,11 +201,11 @@ const minJob = () => {
   state.isDawn = false || (timeH >= 0 && timeH <= 6);
   // 超时回到第一页 10min
   if (state.swipePage != 0) {
-    state.swipeTimeout++
+    state.swipeTimeout++;
     if (state.swipeTimeout == 10) {
-      state.swipePage = 0
-      state.swipeTimeout = 0
-      swipe.value.to(0)
+      state.swipePage = 0;
+      state.swipeTimeout = 0;
+      swipe.value.to(0);
       console.log("auto goto page 0");
     }
   }
@@ -167,52 +219,53 @@ minJob();
 
 const pageChange = (page) => {
   console.log("pageChange:", page);
-  state.swipePage = page
+  state.swipePage = page;
   if (page == 0) {
-    state.swipeTimeout = 0
+    state.swipeTimeout = 0;
   }
 };
 
 const backButton = () => {
-  window.history.back()
-}
+  window.history.back();
+};
 
 const homeButton = () => {
-  swipe.value.to(0)
-}
+  swipe.value.to(0);
+};
 
 const minimize = () => {
-  ipcRenderer.send('minimize')
-}
+  ipcRenderer.send("minimize");
+};
 
 if (window.ipcRenderer) {
   // 后端推送提示框
-  ipcRenderer.on('Dialog', (event, msg) => {
-    Dialog(msg)
-  })
-  ipcRenderer.on('Snackbar', (event, msg) => {
-    Snackbar(msg)
-  })
+  ipcRenderer.on("Dialog", (event, msg) => {
+    Dialog(msg);
+  });
+  ipcRenderer.on("Snackbar", (event, msg) => {
+    Snackbar(msg);
+  });
 
   // 从后端拿到背景图列表
-  ipcRenderer.on('getBgImgList', (event, err, data) => {
-    console.log('getBgImgList', err, data); 
-    if (err) { 
-      Dialog(err)
+  ipcRenderer.on("getBgImgList", (event, err, data) => {
+    console.log("getBgImgList", err, data);
+    if (err) {
+      Dialog(err);
       return;
     }
-    state.bgImgList = data
+    state.bgImgList = data;
     bgChange();
-  })
-  ipcRenderer.send('getBgImgList')
+  });
+  ipcRenderer.send("getBgImgList");
 } else {
   // 使用普通浏览器无法与electron后端通信
   bgChange();
 }
-
 </script>
 
 <style>
+body::-webkit-scrollbar { width: 0 !important }
+
 body {
   margin: 0;
 }
@@ -244,7 +297,7 @@ body {
 }
 
 .dark-mode .shadow {
-  text-shadow: 0 0 20px rgba(0,0,0,0.5);
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .main-box {
@@ -275,13 +328,13 @@ body {
 
 .main-button-box .var-button {
   margin-left: 1em;
-  width:3em;
+  width: 3em;
   height: 3em;
 }
 
 .iframeBrowser {
-  width: calc(100%/1.25);
-  height: calc(100%/1.25);
+  width: calc(100% / 1.25);
+  height: calc(100% / 1.25);
   border-width: 0;
   position: absolute;
   transform: scale(1.25);
@@ -290,5 +343,18 @@ body {
 
 .var-app-bar {
   background-color: #03a9f4;
+}
+
+.var-menu {
+  background: transparent;
+}
+
+.menu-list {
+  background: #fff;
+}
+
+.menu-list .menu-cell {
+  display: block;
+  padding: 10px;
 }
 </style>

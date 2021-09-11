@@ -29,10 +29,22 @@ function createWindow() {
     // frame: false,
   })
 
-    // 最小化窗口
-    ipcMain.on('minimize', (event, arg) => {
-      mainWindow.minimize();
-    });
+  // 忽略X-Frame-Options 让页面强制允许被嵌入
+  mainWindow.webContents.session.webRequest.onHeadersReceived({ urls: [ "*://*/*" ] },
+    (d, c)=>{
+      if(d.responseHeaders['X-Frame-Options']){
+        delete d.responseHeaders['X-Frame-Options'];
+      } else if(d.responseHeaders['x-frame-options']) {
+        delete d.responseHeaders['x-frame-options'];
+      }
+      c({cancel: false, responseHeaders: d.responseHeaders});
+    }
+  );
+
+  // 最小化窗口
+  ipcMain.on('minimize', (event, arg) => {
+    mainWindow.minimize();
+  });
 
   // and load the index.html of the app.
   // if (process.env.VITE_DEV) {
@@ -84,3 +96,18 @@ ipcMain.on('getBgImgList', (event, arg) => {
     event.sender.send('getBgImgList', '没有背景图片 请将图片放到 src/assets/bg');
   }
 });
+
+// 解析rss
+// let Parser = require('rss-parser');
+// ipcMain.on('rssParser', (event, rssUrls) => {
+//   if (typeof rssUrl === 'string') {
+//     rssUrls = [rssUrl];
+//   }
+//   let parser = new Parser();
+//   items = [];
+//   rssUrls.parser.forEach((url) => {
+//     let feed = parser.parseURL(url);
+//     items.append(feed.items);
+//   })
+//   event.sender.send('rssParser', items);
+// })
