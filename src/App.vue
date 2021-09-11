@@ -27,10 +27,10 @@
           <!-- 主页右 -->
           <div class="main-box main-box-right">
             <div class="main-button-box">
-              <var-button type="info" round @click="bgChange()">
+              <var-button round text color="transparent" @click="bgChange()">
                 <var-icon name="refresh" />
               </var-button>
-              <var-button type="danger" round @click="minimize()">
+              <var-button round text color="transparent" @click="minimize()">
                 <var-icon name="minus" />
               </var-button>
             </div>
@@ -332,7 +332,7 @@ body {
 }
 
 .main-button-box {
-  opacity: 0.3;
+  /* opacity: 0.3; */
 }
 
 .main-button-box .var-button {
