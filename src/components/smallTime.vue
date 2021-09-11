@@ -1,4 +1,4 @@
-<!-- 小时间显示器 -->
+<!-- 咩控制台 小时间显示器 -->
 <template>
   <div class="small-time-box-row">
     <div class="small-time-box-column">
