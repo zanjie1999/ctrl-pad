@@ -14,8 +14,8 @@
         <var-swipe-item>
           <!-- 主页左 -->
           <div class="main-box">
-            <weather :dark="!state.useLightMode"/>
-            <smallTime />
+            <weather :dark="!state.useLightMode" class="shadow"/>
+            <smallTime class="shadow"/>
           </div>
           <!-- 主页右 -->
           <div class="main-box main-box-right">
@@ -120,7 +120,7 @@ const bgChange = () => {
 
   // 分析背景颜色 太卡了延时下
   setTimeout(() => {
-    Vibrant.from(state.bgImg).getPalette((err, palette) => {
+    Vibrant.from(state.bgImg).getPalette().then((palette) => {
       console.log('bgPalette', palette)
       state.bgMutedColor = palette.Muted.getHex();
       state.bgLightVibrantColor = palette.LightVibrant.getHex();
@@ -129,9 +129,9 @@ const bgChange = () => {
       // 转为灰度
       let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000
       console.log('toGrayscale:', grayscale)
-      state.useLightMode = grayscale > 128
+      state.useLightMode = grayscale > 125
     })
-  }, 4000)
+  }, 2000)
 }
 
 // 定时器一分钟一次
@@ -238,7 +238,10 @@ body {
 .dark-mode {
   /* background-color: rgba(0, 0, 0, 0.1); */
   color: #fff;
-  /* text-shadow: -2px 1px 5px #000; */
+}
+
+.dark-mode .shadow {
+  text-shadow: -3px 2px 3px rgba(0,0,0,0.5);
 }
 
 .main-box {
