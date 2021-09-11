@@ -42,6 +42,7 @@ window.SeniverseWeatherWidget('show', {
   }
 
   #tp-weather-widget .sw-card-slim-container { 
+    text-shadow: 0 0 0 rgba(0,0,0,0.5);
     max-height: 85vh;
     overflow: auto;
   }
