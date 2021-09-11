@@ -19,6 +19,7 @@ dayjs.locale("zh-cn");
 
 const props = defineProps({
   showAmPm: String,
+  minJob: Function,
 });
 
 const state = reactive({});
@@ -28,6 +29,10 @@ state.bigTimer = setInterval(() => {
   state.timeAmPm = day.format("A");
   state.timeStr = day.format("h:mm:ss");
   state.dateStr = day.format("M月D日  ddd");
+  // 一分钟调用一次 减少定时器数量
+  if (day.second() == 0 && props.minJob) {
+    props.minJob();
+  }
 }, 1000);
 
 onBeforeUnmount(() => {

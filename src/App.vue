@@ -19,7 +19,7 @@
           <!-- 主页左 -->
           <div class="main-box">
             <weather :dark="!state.useLightMode" class="shadow"/>
-            <smallTime class="shadow"/>
+            <smallTime class="shadow" :minJob="minJob"/>
           </div>
           <!-- 主页右 -->
           <div class="main-box main-box-right">
@@ -164,7 +164,6 @@ const minJob = () => {
   }
 };
 minJob();
-state.minTimer = setInterval(minJob, 60000);
 
 const pageChange = (page) => {
   console.log("pageChange:", page);
