@@ -32,9 +32,15 @@ function createWindow() {
   // 忽略X-Frame-Options 让页面强制允许被嵌入
   mainWindow.webContents.session.webRequest.onHeadersReceived({ urls: [ "*://*/*" ] },
     (d, c)=>{
+    delete d.responseHeaders['x-frame-options'];
+    delete d.responseHeaders['X-Frame-Options'];
+    delete d.responseHeaders['x-xss-protection'];
+    delete d.responseHeaders['x-content-type-options'];
+    delete d.responseHeaders['access-control-allow-origin'];
       c({cancel: false, responseHeaders: {
         ...d.responseHeaders,
-        'Content-Security-Policy': []
+        'Content-Security-Policy': [],
+        'Access-Control-Allow-Origin': '*'
       }});
     }
   );
@@ -97,19 +103,14 @@ ipcMain.on('getBgImgList', (event, arg) => {
 
 // 解析rss
 let Parser = require('rss-parser');
-ipcMain.on('rssParser', async (event, args) => {
-  // if (typeof rssUrl === 'string') {
-  //   rssUrls = [rssUrl];
-  // }
-  rssUrls = [
-    "https://news.google.com/rss?hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
-    "https://www.zhihu.com/rss",
-  ]
+ipcMain.on('rssParser', async (event, ...rssUrls) => {
   let parser = new Parser();
-  items = [];
-  rssUrls.forEach((url) => {
-    // let feed = await parser.parseURL(url);
-    // items.push(feed.items);
-  })
-  event.sender.send('rssParser', items);
+  let out = [];
+  for (let i = 0; i < rssUrls.length; i++) {
+    let feed = await parser.parseURL(rssUrls[i]);
+    feed.items?.forEach((item) => {
+      out.push({ title: item.title, link: item.link });
+    });
+  }
+  event.sender.send('rssParser', out);
 })

@@ -10,8 +10,8 @@
 </template>
 
 <script setup>
-// import Parser from "rss-parser/dist/rss-parser.min.js";
 import { defineProps, reactive } from "vue";
+import Parser from "rss-parser/dist/rss-parser.min.js";
 
 const props = defineProps({
   openWeb: Function,
@@ -25,17 +25,26 @@ const state = reactive({
   rssData: [{ title: "暂无新闻", link: "" }],
 });
 
+// 拿不全还跨域 不如直接让后端拿
 // let parser = new Parser();
-// let feed = parser.parseURL("https://cors-anywhere.herokuapp.com/" + state.rssUrl[0]);
-// console.log(feed);
+// state.rssData = [];
+// state.rssUrl.forEach((url) => {
+//   parser.parseURL(url, (err, feed) => {
+//     if (err) throw err;
+//     console.log(feed.title, feed.items);
+//     feed.items?.forEach((item) => {
+//       state.rssData.push({ title: item.title, link: item.link });
+//     });
+//   });
+// });
 
 if (window.ipcRenderer) {
-  // 从后端拿rss结果 因为浏览器不能直接获取rss信息
+  // 从后端拿rss结果 因为浏览器几乎不能直接获取rss信息
   ipcRenderer.on('rssParser', (event, data) => {
     console.log('rssParser', data);
     state.rssData = data
   })
-  ipcRenderer.send('rssParser');
+  ipcRenderer.send('rssParser', ...state.rssUrl);
 }
 </script>
 

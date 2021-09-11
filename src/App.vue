@@ -55,7 +55,7 @@
                 :placeholder="state.iframeSrc"
                 v-model="state.iframeSrcInp"
                 @keyup.enter="iframeSrcInpEnter"
-                style="width: 75vw;"
+                style="width: 75vw; overflow: hidden;"
               />
             </template>
 
@@ -136,6 +136,10 @@ const state = reactive({
 
 // 输入框回车
 const iframeSrcInpEnter = () => {
+  if (state.iframeSrcInp == "") {
+    state.iframeSrcInp = state.iframeSrc
+    return;
+  }
   if (state.iframeSrcInp.indexOf("://") > 0){
     state.iframeSrc = state.iframeSrcInp;
   } else {
