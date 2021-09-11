@@ -3,7 +3,7 @@
   <var-button round text color="transparent" @click="prev()">
     <var-icon name="menu-left" :size="35" class="rss-button" />
   </var-button>
-  <var-swipe ref="rssSwipe" class="rss-swipe">
+  <var-swipe ref="rssSwipe" class="rss-swipe" :autoplay="2000">
     <template #default>
     <var-swipe-item v-for="r in state.rssData" :key="r.title">
       <div class="rss-item" @click="props.openWeb(r.link)">
