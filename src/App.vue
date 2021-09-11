@@ -12,6 +12,10 @@
         </var-swipe-item>
         <!-- 正常的首页 -->
         <var-swipe-item>
+          <!-- 主页顶 -->
+          <div class="main-box-top">
+            <rss />
+          </div>
           <!-- 主页左 -->
           <div class="main-box">
             <weather :dark="!state.useLightMode" class="shadow"/>
@@ -258,6 +262,12 @@ body {
 .main-box-right {
   float: right;
   align-items: flex-end;
+}
+
+.main-box-top {
+  height: 0;
+  width: 100%;
+  align-items: center;
 }
 
 .main-button-box {
