@@ -1,6 +1,12 @@
 <!-- 咩控制台 rss新闻流订阅 -->
 <template>
-
+  <var-swipe class="rss-swipe">
+    <var-swipe-item v-for="r in state.rssData" :key="r.title">
+      <div class="rss-item" @click="props.openWeb(r.link)">
+        <h2>{{ r.title }}</h2>
+      </div>
+    </var-swipe-item>
+  </var-swipe>
 </template>
 
 <script setup>
@@ -23,15 +29,23 @@ const state = reactive({
 // let feed = parser.parseURL("https://cors-anywhere.herokuapp.com/" + state.rssUrl[0]);
 // console.log(feed);
 
-// if (window.ipcRenderer) {
-//   // 从后端拿rss结果 因为浏览器不能直接获取rss信息
-//   ipcRenderer.on('rssParser', (event, data) => {
-//     console.log('rssParser', data);
-//     state.rssData = data
-//   })
-//   // ipcRenderer.send('rssParser', state.rssUrl);
-// }
+if (window.ipcRenderer) {
+  // 从后端拿rss结果 因为浏览器不能直接获取rss信息
+  ipcRenderer.on('rssParser', (event, data) => {
+    console.log('rssParser', data);
+    state.rssData = data
+  })
+  ipcRenderer.send('rssParser');
+}
 </script>
 
-<style>
+<style scoped>
+.rss-swipe {
+  width: 70vw;
+}
+.rss-item {
+  width: 70vw;
+  display: flex;
+  justify-content: center;
+}
 </style>

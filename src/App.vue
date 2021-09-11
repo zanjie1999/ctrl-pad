@@ -17,7 +17,7 @@
         <var-swipe-item>
           <!-- 主页顶 -->
           <div class="main-box-top">
-            <rss />
+            <rss :openWeb="openWeb" class="shadow" />
           </div>
           <!-- 主页左 -->
           <div class="main-box">
@@ -147,8 +147,10 @@ const iframeSrcInpEnter = () => {
 // 在浏览器打开页面
 const openWeb = (url) => {
   console.log("openWeb:", url);
-  swipe.value.to(1);
-  state.iframeSrc = url;
+  if (url) {
+    swipe.value.to(1);
+    state.iframeSrc = url;
+  }
 };
 
 // 背景图切换
@@ -164,7 +166,7 @@ const bgChange = () => {
         state.bgImgList[i],
       ];
     }
-    console.log("bgShuffle: ", state.bgImg);
+    console.log("bgShuffle: ", state.bgImgList);
   }
   state.bgImg = encodeURI(
     "/src/assets/bg/" + state.bgImgList[state.bgLastChange]
@@ -317,9 +319,12 @@ body {
 }
 
 .main-box-top {
-  height: 0;
+  position: absolute;
   width: 100%;
-  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .main-button-box {
