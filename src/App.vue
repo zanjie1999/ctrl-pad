@@ -241,7 +241,7 @@ body {
 }
 
 .dark-mode .shadow {
-  text-shadow: -3px 2px 3px rgba(0,0,0,0.5);
+  text-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
 .main-box {

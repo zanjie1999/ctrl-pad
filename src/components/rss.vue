@@ -1,4 +1,4 @@
-<!-- 咩控制台 天气 -->
+<!-- 咩控制台 rss新闻流订阅 -->
 <template>
   <div id="tp-weather-widget" :class="{'dark-mode-weather': props.dark}"></div>
 </template>
@@ -38,7 +38,6 @@ window.SeniverseWeatherWidget('show', {
   }
 
   #tp-weather-widget .sw-container .sw-bar-slim img {
-    filter: drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
     width: 3.5em !important;
     height: 3.5em !important;
   }

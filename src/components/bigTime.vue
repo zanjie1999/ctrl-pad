@@ -1,4 +1,4 @@
-<!-- 大时间显示器 -->
+<!-- 咩控制台 大时间显示器 -->
 <template>
   <div class="big-time-box-column">
     <div class="big-time-box-row" v-if="props.showAmPm">
