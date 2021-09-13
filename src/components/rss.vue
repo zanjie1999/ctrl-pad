@@ -96,7 +96,7 @@ expose({
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-top: 13px;
-  font-weight:500;
+  /* font-weight:500; */
 }
 
 .rss-button {
