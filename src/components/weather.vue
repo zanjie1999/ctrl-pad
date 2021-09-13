@@ -1,6 +1,6 @@
 <!-- 咩控制台 天气 -->
 <template>
-  <div id="tp-weather-widget" :class="{'dark-mode-weather': props.dark}"></div>
+  <div id="tp-weather-widget" :class="{'dark-mode-weather': props.dark}" v-if="state.show"></div>
 </template>
 
 <script>  (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));</script>
@@ -11,8 +11,12 @@ const props = defineProps({
   dark: String,
 });
 
-const state = reactive({})
-window.SeniverseWeatherWidget('show', {
+const state = reactive({
+  show: true,
+})
+
+const init = () => {
+  window.SeniverseWeatherWidget('show', {
     flavor: "slim",
     location: "WS0E9D8WN298",
     geolocation: true,
@@ -23,6 +27,9 @@ window.SeniverseWeatherWidget('show', {
     hover: "enabled",
     container: "tp-weather-widget"
   })
+}
+init();
+
 </script>
 
 <style>
@@ -44,6 +51,15 @@ window.SeniverseWeatherWidget('show', {
     filter: drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
     width: 3.5em !important;
     height: 3.5em !important;
+  }
+
+  /* 预警图标 */
+  .icon-background-alarmCircle {
+    background-color: rgba(0, 0, 0, 0) !important;
+  }
+  .icon-background-alarmCircle .jRCMdc {
+    font-size: 3em !important;
+    filter: drop-shadow(0px 0px 20px rgba(0,0,0,0.5));
   }
 
   /* 卡片里面的字 */
