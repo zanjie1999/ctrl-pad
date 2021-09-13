@@ -329,7 +329,11 @@ body {
 }
 
 .dark-mode .shadow {
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.light-mode .shadow {
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
 .main-box {
