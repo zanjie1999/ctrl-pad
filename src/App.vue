@@ -17,7 +17,7 @@
         <var-swipe-item>
           <!-- 主页顶 -->
           <div class="main-box-top">
-            <rss :openWeb="openWeb" class="shadow" />
+            <rss ref="rssBar" :openWeb="openWeb" class="shadow" />
           </div>
           <!-- 主页左 -->
           <div class="main-box">
@@ -27,6 +27,9 @@
           <!-- 主页右 -->
           <div class="main-box main-box-right">
             <div class="main-button-box">
+              <var-button round text color="transparent" @click="uiharu()">
+                <var-icon name="wrench" />
+              </var-button>
               <var-button round text color="transparent" @click="bgChange()">
                 <var-icon name="refresh" />
               </var-button>
@@ -107,12 +110,13 @@ import { reactive, ref } from "vue";
 import { Snackbar, Dialog } from "@varlet/ui";
 import "@varlet/ui/es/dialog/style/index.js";
 import "@varlet/ui/es/snackbar/style/index.js";
-import dayjs from "dayjs";
-import "dayjs/locale/zh-cn";
-dayjs.locale("zh-cn");
+// import dayjs from "dayjs";
+// import "dayjs/locale/zh-cn";
+// dayjs.locale("zh-cn");
 import * as Vibrant from "node-vibrant";
 
 const swipe = ref(null);
+const rssBar = ref(null);
 
 const state = reactive({
   debug: false,
@@ -130,6 +134,8 @@ const state = reactive({
     { n: "Hass", u: "http://rk:8123/lovelace/default_view" },
     { n: "群晖", u: "http://owo:5000", },
     { n: "百度", u: "https://www.baidu.com", },
+    { n: "Google", u: "https://www.google.com/ncr", },
+    { n: "网抑", u: "https://simplecloudmusic.com/", },    
     ],
   isWebListMenuOpen: false,
 });
@@ -179,30 +185,41 @@ const bgChange = () => {
   state.bgLastChange++;
 
   // 分析背景颜色 太卡了延时下
-  setTimeout(() => {
-    Vibrant.from(state.bgImg)
-      .getPalette()
-      .then((palette) => {
-        console.log("bgPalette", palette);
-        state.bgMutedColor = palette.Muted.getHex();
-        state.bgLightVibrantColor = palette.LightVibrant.getHex();
-        state.bgDarkVibrant = palette.DarkVibrant.getHex();
-        let m = palette.Muted.getRgb();
-        // 转为灰度
-        let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000;
-        console.log("toGrayscale:", grayscale);
-        state.useLightMode = grayscale > 125;
-      });
-  }, 2000);
+  setTimeout(updateColor(), 1000);
 };
 
+const updateColor = () => {
+  Vibrant.from(state.bgImg)
+    .quality(1)
+    .getPalette()
+    .then((palette) => {
+      console.log("bgPalette", palette);
+      // let lm = palette.LightMuted.getRgb()
+      // let dm = palette.DarkMuted.getRgb()
+      // let m = [lm[0]-dm[0], lm[1]-dm[1], lm[2]-dm[2]];
+      // state.bgMutedColor = Vibrant.Util.rgbToHex(...m);
+      
+      state.bgLightVibrantColor = palette.LightVibrant.getHex();
+      state.bgDarkVibrant = palette.DarkVibrant.getHex();
+      // 转为灰度
+      // let m = palette.LightVibrant.getRgb()
+      // let grayscale = (m[0] * 299 + m[1] * 587 + m[2] * 114 + 500) / 1000;
+      // console.log("toGrayscale:", grayscale);
+      // state.useLightMode = grayscale > 130;
+      // 为什么要自己算XD
+      state.useLightMode = palette.Muted.getBodyTextColor() == '#000' || palette.Vibrant.getBodyTextColor() == '#000'
+      if (state.useLightMode) {
+        state.bgMutedColor = palette.LightMuted.getHex()
+      } else {
+        state.bgMutedColor = palette.Muted.getHex()
+      }
+  });
+}
+
 // 定时器一分钟一次
-const minJob = () => {
+const minJob = (timeH, timeM) => {
   window.sparkle = state;
   console.log("minJob!");
-  const day = dayjs();
-  const timeH = day.hour();
-  const timeM = day.minute();
   // 定时切换凌晨大时钟
   state.isDawn = false || (timeH >= 0 && timeH <= 6);
   // 超时回到第一页 10min
@@ -210,15 +227,19 @@ const minJob = () => {
     state.swipeTimeout++;
     if (state.swipeTimeout == 10) {
       state.swipePage = 0;
-      state.swipeTimeout = 0;
       swipe.value.to(0);
       console.log("auto goto page 0");
     }
+  } else {
+    state.swipeTimeout = 0
   }
-  // 自动更换背景 30min
-  if (timeM == 0 || timeM == 30) {
-    state.bgLastChangeTimeout = 0;
+  // 自动更换背景 10min
+  if (timeM % 10 == 0) {
     bgChange();
+  }
+  // 更新新闻
+  if (timeH == 6 || timeH == 12 || timeH == 18) {
+    rssBar.value.update();
   }
 };
 minJob();
@@ -266,6 +287,11 @@ if (window.ipcRenderer) {
 } else {
   // 使用普通浏览器无法与electron后端通信
   bgChange();
+}
+
+const uiharu = () => {
+  console.log('bar',rssBar.value.update)
+  rssBar.value.update();
 }
 </script>
 

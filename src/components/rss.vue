@@ -3,7 +3,7 @@
   <var-button round text color="transparent" @click="prev()">
     <var-icon name="menu-left" :size="35" class="rss-button" />
   </var-button>
-  <var-swipe ref="rssSwipe" class="rss-swipe" :autoplay="3500">
+  <var-swipe ref="rssSwipe" class="rss-swipe" :autoplay="5000">
     <template #default>
     <var-swipe-item v-for="r in state.rssData" :key="r.title">
       <div class="rss-item" @click="props.openWeb(r.link)">
@@ -53,13 +53,18 @@ const rssSwipe = ref(null);
 //   });
 // });
 
+const update = () => {
+  ipcRenderer.send("rssParser", ...state.rssUrl);
+}
+
 if (window.ipcRenderer) {
   // 从后端拿rss结果 因为浏览器几乎不能直接获取rss信息
   ipcRenderer.on("rssParser", (event, data) => {
     console.log("rssParser", data);
     state.rssData = data;
+    rssSwipe.value.to(0);
   });
-  ipcRenderer.send("rssParser", ...state.rssUrl);
+  update()
 }
 
 const prev = () => {
@@ -69,15 +74,19 @@ const prev = () => {
 const next = () => {
   rssSwipe.value.next();
 };
+
+expose({
+  update
+})
 </script>
 
 <style scoped>
 .rss-swipe {
-  width: 68vw;
+  width: 60vw;
 }
 
 .rss-item {
-  width: 68vw;
+  width: 60vw;
   display: flex;
   justify-content: center;
 }

@@ -31,7 +31,7 @@ state.bigTimer = setInterval(() => {
   state.dateStr = day.format("M月D日  ddd");
   // 一分钟调用一次 减少定时器数量
   if (day.second() == 0 && props.minJob) {
-    props.minJob();
+    props.minJob(day.hour(), day.minute());
   }
 }, 1000);
 
