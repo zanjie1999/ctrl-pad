@@ -239,7 +239,9 @@ const minJob = (timeH, timeM) => {
   }
   // 更新新闻
   if (timeH == 6 || timeH == 12 || timeH == 18) {
-    rssBar.value.update();
+    // rssBar.value.update();
+    // 为了天气刷新，整个页面刷新
+    location.reload();
   }
 };
 minJob();
@@ -290,8 +292,9 @@ if (window.ipcRenderer) {
 }
 
 const uiharu = () => {
-  console.log('bar',rssBar.value.update)
-  rssBar.value.update();
+  // console.log('bar',rssBar.value.update)
+  // rssBar.value.update();
+  location.reload();
 }
 </script>
 
