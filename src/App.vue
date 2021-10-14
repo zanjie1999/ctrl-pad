@@ -37,6 +37,7 @@
                 <var-icon name="minus" />
               </var-button>
             </div>
+            <todoList/>
           </div>
         </var-swipe-item>
         <!-- 浏览器 -->
@@ -158,7 +159,7 @@ const iframeSrcInpEnter = () => {
 const openWeb = (url) => {
   console.log("openWeb:", url);
   if (url) {
-    swipe.value.to(1);
+    swipe.value.to(state.isDawn ? 2 : 1);
     state.iframeSrc = url;
   }
 };
