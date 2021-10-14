@@ -238,7 +238,7 @@ const minJob = (timeH, timeM) => {
     bgChange();
   }
   // 更新新闻
-  if (timeH == 6 || timeH == 12 || timeH == 18) {
+  if (timeM == 0 && (timeH == 6 || timeH == 12 || timeH == 18)) {
     // rssBar.value.update();
     // 为了天气刷新，整个页面刷新
     location.reload();
