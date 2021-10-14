@@ -10,6 +10,7 @@ declare module 'vue' {
     Rss: typeof import('./src/components/rss.vue')['default']
     SmallTime: typeof import('./src/components/smallTime.vue')['default']
     Time: typeof import('./src/components/time.vue')['default']
+    TodoList: typeof import('./src/components/todoList.vue')['default']
     VarAppBar: typeof import('@varlet/ui')['_AppBarComponent']
     VarButton: typeof import('@varlet/ui')['_ButtonComponent']
     VarCell: typeof import('@varlet/ui')['_CellComponent']
