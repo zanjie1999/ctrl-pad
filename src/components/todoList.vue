@@ -44,7 +44,7 @@ expose({
 
 <style scoped>
 .todo-item {
-    font-size: 1.4em;
+    font-size: 1.3em;
     display: flex;
 }
 .todo-box {

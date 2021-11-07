@@ -68,18 +68,18 @@ onBeforeUnmount(() => {
 }
 
 .small-time-ampm {
-  font-size: 1.5em;
+  font-size: 1.2em;
   padding-top: 1.5em;
 }
 
 .small-date {
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 .small-time {
   font-size: 7em;
   font-weight:100;
-  width: 3.8em;
+  width: 3.75em;
   letter-spacing: -3px;
 }
 </style>
