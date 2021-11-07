@@ -77,7 +77,7 @@ onBeforeUnmount(() => {
 }
 
 .small-time {
-  font-size: 8em;
+  font-size: 7em;
   font-weight:100;
   width: 3.8em;
   letter-spacing: -3px;
