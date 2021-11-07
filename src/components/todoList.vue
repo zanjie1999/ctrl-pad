@@ -4,7 +4,7 @@
         <h2 v-if="!state.todo.length" class="todo-msg">{{state.msg}}</h2>
         <div class="todo-list" v-if="state.todo.length">
             <div class="todo-item" v-for="(v,i) in state.todo" :key="i+1">
-                <span class="todo-item-index">{{i+1}}.</span><span>{{v}}</span>
+                <span class="todo-item-index">{{i+1}}.</span><span v-html="v.replace(/\n/g, '<br>')"></span>
             </div>
         </div>
     </div>

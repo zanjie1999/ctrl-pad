@@ -272,19 +272,28 @@ const uiharu = () => {
 </script>
 
 <style>
+@font-face {
+    /* 思源黑体 */
+    font-family: 'SourceHanSansCN';
+    src:url(assets/SourceHanSansCN-Medium.otf) format('opentype');
+}
+
 body::-webkit-scrollbar {
     width: 0 !important;
 }
 
 body {
     margin: 0;
+    /* 统一设置字体 */
+    font-family: 'SourceHanSansCN';
 }
 .background {
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100%;
+    /* background-size: 100%; */
     /* background-size: auto 100%; */
+    background-size: cover;
 }
 
 .swipe {
@@ -307,11 +316,13 @@ body {
 }
 
 .dark-mode .shadow {
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    /* text-shadow: 0 0 10px rgba(0, 0, 0, 0.6); */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3),-1px -1px 3px rgba(0, 0, 0, 0.3),-1px 1px 3px rgba(0, 0, 0, 0.3),1px -1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .light-mode .shadow {
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    /* text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); */
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.2),-1px -1px 0 rgba(255, 255, 255, 0.2),-1px 1px 0 rgba(255, 255, 255, 0.2),1px -1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .main-box {

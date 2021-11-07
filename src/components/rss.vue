@@ -103,7 +103,7 @@ expose({
     text-overflow: ellipsis;
     white-space: nowrap;
     margin-top: 13px;
-    /* font-weight:500; */
+    font-weight:400;
 }
 
 .rss-button {
@@ -120,6 +120,6 @@ expose({
 }
 
 .dark-mode .shadow {
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+    /* text-shadow: 0 0 5px rgba(0, 0, 0, 0.6); */
 }
 </style>
