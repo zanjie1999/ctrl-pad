@@ -33,7 +33,7 @@ const props = defineProps({
 const state = reactive({
     rssUrl: [
         "https://news.google.com/rss?hl=zh-CN&gl=CN&ceid=CN:zh-Hans",
-        "https://www.zhihu.com/rss",
+        // "https://www.zhihu.com/rss",
     ],
     rssData: [{ title: "假装这里有新闻", link: "" }],
 });
