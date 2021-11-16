@@ -105,6 +105,7 @@ const state = reactive({
         { n: "百度", u: "https://www.baidu.com", },
         { n: "Google", u: "https://www.google.com/ncr", },
         { n: "网抑", u: "https://simplecloudmusic.com/", },
+        { n: "Clash", u: "http://k2p:9090/ui/#/proxies", },
     ],
     isWebListMenuOpen: false,
 });
