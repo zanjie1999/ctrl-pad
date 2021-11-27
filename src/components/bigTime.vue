@@ -62,10 +62,11 @@ onBeforeUnmount(() => {
 }
 
 .big-date {
-  font-size: 5em;
+  font-size: 5.5em;
 }
 
 .big-time {
-  font-size: 16em;
+  font-size: 14.5em;
+  line-height: 1.2em;
 }
 </style>

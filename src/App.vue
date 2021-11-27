@@ -191,7 +191,7 @@ const minJob = (timeH, timeM) => {
     window.sparkle = state;
     console.log("minJob!");
     // 定时切换凌晨大时钟
-    state.isDawn = false || (timeH >= 0 && timeH <= 6);
+    state.isDawn = 0 || (timeH >= 0 && timeH <= 6);
     // 超时回到第一页 10min
     if (state.swipePage != 0) {
         state.swipeTimeout++;

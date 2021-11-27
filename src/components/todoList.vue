@@ -26,7 +26,7 @@ const state = reactive({
 
 const update = () => {
     state.msg = '加载待办中...'
-    axios.get('http://64.27.14.219:5757/todo').then((res) => {
+    axios.get('http://me:5757/todo').then((res) => {
         if (res.data.length) {
             console.log('todoList', res.data)
             state.todo = res.data
