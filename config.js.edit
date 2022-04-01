@@ -1,0 +1,17 @@
+// 全局配置文件
+// 复制为 config.js 并编辑
+
+export default {
+    // 代办列表api
+    todoListApi:'',
+    // 知心天气token
+    weatherToken: '',
+    // 天气地点 去官网查
+    weatherLocation: '',
+    // 简易浏览器的网站列表
+    webList: [
+        { n: "百度", u: "https://www.baidu.com", },
+        { n: "Google", u: "https://www.google.com/ncr", },
+        { n: "网抑", u: "https://simplecloudmusic.com/", },
+    ]
+}

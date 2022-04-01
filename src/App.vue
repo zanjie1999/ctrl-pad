@@ -82,6 +82,7 @@ import "@varlet/ui/es/snackbar/style/index.js";
 // import "dayjs/locale/zh-cn";
 // dayjs.locale("zh-cn");
 import * as Vibrant from "node-vibrant";
+import config from '../config'
 
 const swipeRef = ref(null);
 const rssRef = ref(null);
@@ -99,14 +100,7 @@ const state = reactive({
     iframeSrc: "",
     swipePage: 0,
     swipeTimeout: 0,
-    webList: [
-        { n: "Hass", u: "http://rk:8123/lovelace/default_view" },
-        { n: "群晖", u: "http://owo:5000", },
-        { n: "百度", u: "https://www.baidu.com", },
-        { n: "Google", u: "https://www.google.com/ncr", },
-        { n: "网抑", u: "https://simplecloudmusic.com/", },
-        { n: "Clash", u: "http://k2p:9090/ui/#/proxies", },
-    ],
+    webList: config.webList,
     isWebListMenuOpen: false,
 });
 

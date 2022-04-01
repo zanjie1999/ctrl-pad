@@ -13,6 +13,7 @@
 <script setup>
 import { defineProps, reactive } from 'vue'
 import axios from 'axios'
+import config from '../../config'
 
 
 defineProps({
@@ -26,7 +27,7 @@ const state = reactive({
 
 const update = () => {
     state.msg = '加载待办中...'
-    axios.get('http://me:5757/todo').then((res) => {
+    axios.get(config.todoListApi).then((res) => {
         if (res.data.length) {
             console.log('todoList', res.data)
             state.todo = res.data
